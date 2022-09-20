@@ -1,14 +1,14 @@
 package com.bsuir.poit.fundamentals;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleTasks {
 
     /**
      * <b>TASK 1<b/> <br/>
-     * Вычислить значение выражения по формуле (все переменные принимают действительные
-     * значения).
+     * Вычислить значение выражения по формуле (все переменные принимают действительные значения).
      */
     private double equation(double x, double y) {
 
@@ -37,8 +37,8 @@ public class SimpleTasks {
 
     /**
      * <b>TASK 3<b/> <br/>
-     * Составить программу для вычисления значений функции F(x) на отрезке [а, b] с шагом h. Результат
-     * представить в виде таблицы, первый столбец которой – значения аргумента, второй -
+     * Составить программу для вычисления значений функции F(x) на отрезке [а, b] с шагом h.
+     * Результат представить в виде таблицы, первый столбец которой – значения аргумента, второй -
      * соответствующие значения функции F(x) = tg(x).
      */
     private void countTg(double a, double b, double h) {
@@ -53,8 +53,8 @@ public class SimpleTasks {
 
     /**
      * <b>TASK 4<b/> <br/>
-     * Задан целочисленный массив размерности N. Есть ли среди элементов массива простые числа?
-     * Если да, то вывести номера этих элементов.
+     * Задан целочисленный массив размерности N. Есть ли среди элементов массива простые числа? Если
+     * да, то вывести номера этих элементов.
      */
     private void showPrimes(List<BigInteger> array) {
         array.stream()
@@ -64,11 +64,10 @@ public class SimpleTasks {
 
     /**
      * <b>TASK 5<b/> <br/>
-     * Дана целочисленная таблица А[n]. Найти наименьшее число K элементов, которые можно
-     * выкинуть из данной последовательности, так чтобы осталась возрастающая
-     * подпоследовательность.
+     * Дана целочисленная таблица А[n]. Найти наименьшее число K элементов, которые можно выкинуть
+     * из данной последовательности, так чтобы осталась возрастающая подпоследовательность.
      */
-    private int countRedundant(int[] A) {
+    private int countRedundant(int[] A) { //TODO: fix
         int temp = 1;
         int counter = 0;
         for (int i = 1; i < A.length; i++) {
@@ -84,8 +83,7 @@ public class SimpleTasks {
 
     /**
      * <b>TASK 6<b/> <br/>
-     * Даны действительные числа a1, a2, …, an. Получить следующую квадратную матрицу порядка
-     * n.
+     * Даны действительные числа a1, a2, …, an. Получить следующую квадратную матрицу порядка n.
      */
     private double[][] createMatrix(double[] seq) {
 
@@ -107,31 +105,78 @@ public class SimpleTasks {
      * Если ai <= ai+1, то продвигаются на один элемент вперед. Если ai > ai+1, то производится
      * перестановка и сдвигаются на один элемент назад. Составить алгоритм этой сортировки.
      */
-
     private double[] shellSort(double[] seq) {
-        //tf
+
         return seq;
     }
 
     /**
      * <b>TASK 8<b/> <br/>
-     * Пусть даны две неубывающие последовательности действительных чисел a1 <= a2 <= … <=an и b1
-     * <= b2 <= … <= bm. Требуется указать те места, на которые нужно вставлять элементы
+     * Пусть даны две неубывающие последовательности действительных чисел a1 <= a2 <= … <=an и b1 <=
+     * b2 <= … <= bm. Требуется указать те места, на которые нужно вставлять элементы
      * последовательности b1 <= b2 <= … <= bm в первую последовательность так, чтобы новая
      * последовательность оставалась возрастающей.
      */
     private void insertions(double[] initSeq, double[] insertSeq) {
         for (int i = 0; i < insertSeq.length; i++) {
-            int idx = findIndexOfEqualOrGreater(insertSeq, insertSeq[i]);
+            int idx = findIndexOfEqualOrGreater(initSeq, insertSeq[i]);
             if (idx == -1) {
                 System.out.println("А остальные -- в конец");
                 return;
             } else if (idx == 0) {
-                System.out.printf("%f перед %f", insertSeq[i], initSeq[i]);
+                System.out.printf("%.1f перед %.1f %n", insertSeq[i], initSeq[i]);
             } else {
-                System.out.printf("%f между %f и %f %n", insertSeq[i], initSeq[i - 1], initSeq[i]);
+                System.out.printf("%.1f между %.1f и %.1f %n", insertSeq[i], initSeq[i - 1],
+                    initSeq[i]);
             }
         }
+    }
+
+    //Demonstration
+    public static void main(String[] args) {
+        var simpleTasks = new SimpleTasks();
+
+        //First task
+        System.out.println(simpleTasks.equation(11.0, 12.0));
+
+        //Second
+        System.out.println(simpleTasks.belongsTo(-2.0, 2.0));
+
+        //Third
+        simpleTasks.countTg(-1.0, 10, 1);
+
+        //Fourth
+        var bigArray = new ArrayList<BigInteger>();
+        for (int i = 0; i < 10; i++) {
+            var val = BigInteger.valueOf((long) (Math.random() * 100));
+            bigArray.add(val);
+            System.out.print(val + " ");
+        }
+        System.out.println();
+
+        simpleTasks.showPrimes(bigArray);
+
+        //Fifth
+        System.out.println(simpleTasks.countRedundant(new int[]{1, 2, 200, 3, 5, 76, 4, 32, 100}));
+
+        //Sixth
+        var mat =
+            simpleTasks.createMatrix(new double[]{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0});
+
+        for (double[] row : mat) {
+            for (double elem : row) {
+                System.out.print(elem + " ");
+            }
+            System.out.println();
+        }
+
+        //Seventh
+
+        //Eighth
+        simpleTasks.insertions(
+            new double[]{1, 3, 4, 6, 7},
+            new double[]{1, 2, 4, 5, 7, 21, 44, 52}
+        );
     }
 
     //util
