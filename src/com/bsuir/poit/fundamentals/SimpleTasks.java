@@ -2,6 +2,7 @@ package com.bsuir.poit.fundamentals;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SimpleTasks {
@@ -67,17 +68,30 @@ public class SimpleTasks {
      * Дана целочисленная таблица А[n]. Найти наименьшее число K элементов, которые можно выкинуть
      * из данной последовательности, так чтобы осталась возрастающая подпоследовательность.
      */
-    private int countRedundant(int[] A) { //TODO: fix
-        int temp = 1;
+    private int countRedundant(int[] A) {
+        int[] mat = new int[A.length];
+        for (int i = 0; i < A.length; i++) {
+            int counter = 0;
+            for (int j = i; j < A.length; j++) {
+                if (A[i] < A[j]) {
+                    counter++;
+                }
+            }
+            mat[i] = counter;
+        }
+
         int counter = 0;
-        for (int i = 1; i < A.length; i++) {
-            if (A[i] > A[i - temp]) {
+        int startBorder = 0;
+        for (int i = mat.length - 1; i >= 0; i--) {
+            int currentIdx =
+                Arrays.binarySearch(mat, startBorder, mat.length, i);
+            if (currentIdx > 0) {
                 counter++;
-                temp++;
-            } else {
-                temp = 1;
+                i = mat[currentIdx]; //ну да, но ...
+                startBorder = currentIdx;
             }
         }
+
         return counter;
     }
 
@@ -106,7 +120,26 @@ public class SimpleTasks {
      * перестановка и сдвигаются на один элемент назад. Составить алгоритм этой сортировки.
      */
     private double[] shellSort(double[] seq) {
+        int h = 1;
+        while (h * 3 < seq.length) {
+            h = h * 3 + 1;
+        }
 
+        while (h >= 1) {
+            int length = seq.length;
+            for (int i = h; i < length; i++) {
+                for (int j = i; j >= h; j = j - h) {
+                    if (seq[j] < seq[j - h]) {
+                        double temp = seq[j];
+                        seq[j] = seq[j - h];
+                        seq[j - h] = temp;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            h = h / 3;
+        }
         return seq;
     }
 
@@ -136,16 +169,16 @@ public class SimpleTasks {
     public static void main(String[] args) {
         var simpleTasks = new SimpleTasks();
 
-        //First task
+        System.out.println("FIRST: ");
         System.out.println(simpleTasks.equation(11.0, 12.0));
 
-        //Second
+        System.out.println("SECOND: ");
         System.out.println(simpleTasks.belongsTo(-2.0, 2.0));
 
-        //Third
+        System.out.println("THIRD: ");
         simpleTasks.countTg(-1.0, 10, 1);
 
-        //Fourth
+        System.out.println("FOURTH: ");
         var bigArray = new ArrayList<BigInteger>();
         for (int i = 0; i < 10; i++) {
             var val = BigInteger.valueOf((long) (Math.random() * 100));
@@ -153,13 +186,12 @@ public class SimpleTasks {
             System.out.print(val + " ");
         }
         System.out.println();
-
         simpleTasks.showPrimes(bigArray);
 
-        //Fifth
-        System.out.println(simpleTasks.countRedundant(new int[]{1, 2, 200, 3, 5, 76, 4, 32, 100}));
+        System.out.println(
+            "FIFTH: " + simpleTasks.countRedundant(new int[]{1, 2, 200, 3, 5, 76, 4, 32, 100}));
 
-        //Sixth
+        System.out.println("SIXTH:");
         var mat =
             simpleTasks.createMatrix(new double[]{1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0});
 
@@ -171,8 +203,16 @@ public class SimpleTasks {
         }
 
         //Seventh
+        System.out.println("SEVENTH:");
+        var arr = new double[]{38, 11, 38, 3, 11, 20, 9, 1, 49, 39};
+        simpleTasks.shellSort(arr);
+        for (double v : arr) {
+            System.out.print(v + " ");
+        }
+        System.out.println();
 
         //Eighth
+        System.out.println("EIGHT:");
         simpleTasks.insertions(
             new double[]{1, 3, 4, 6, 7},
             new double[]{1, 2, 4, 5, 7, 21, 44, 52}
