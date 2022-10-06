@@ -87,7 +87,7 @@ public class SimpleTasks {
                 Arrays.binarySearch(mat, startBorder, mat.length, i);
             if (currentIdx > 0) {
                 counter++;
-                i = mat[currentIdx]; //ну да, но ...
+                i = mat[currentIdx];
                 startBorder = currentIdx;
             }
         }
